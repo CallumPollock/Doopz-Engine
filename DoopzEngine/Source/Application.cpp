@@ -15,7 +15,7 @@ bool Application::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	m_window = SDL_CreateWindow("Game Engine :)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow("Doopz Engine v2.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 	if (m_window == NULL)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -26,6 +26,18 @@ bool Application::Init()
 		//Get window surface
 		m_screen = SDL_GetWindowSurface(m_window);
 	}
+
+	SDL_Surface *icon;
+	icon = IMG_Load("images/Icon.png");
+	if (!icon) {
+		printf("IMG_Load: %s\n", IMG_GetError());
+		// handle error
+	}
+
+	// The icon is attached to the window pointer
+	SDL_SetWindowIcon(m_window, icon);
+
+	SDL_FreeSurface(icon);
 
 	SDL_Renderer * renderer = SDL_CreateRenderer(m_window, -1, 0);
 
@@ -137,16 +149,19 @@ void Application::Exit()
 
 	printf("\nExiting application...\n");
 
-	SDL_DestroyWindow(m_window);
-	m_window = NULL;
-	printf("Destroyed window...\n");
-
-	SDL_FreeSurface(m_screen);
-	m_screen = NULL;
-	printf("Destroyed screen...\n");
-
-	delete m_scene;
-	printf("Destroyed scene...\n");
+	if (m_window != NULL)
+	{
+		SDL_DestroyWindow(m_window);
+		m_window = NULL;
+		printf("Destroyed window...\n");
+	}
+	
+	if (m_scene != NULL)
+	{
+		delete m_scene;
+		printf("Destroyed scene...\n");
+	}
+	
 
 	//Quit SDL subsystems
 	SDL_Quit();

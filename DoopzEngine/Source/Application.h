@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>
+#include <SDL_image.h>
 
 #include "Scene.h"
 #include "Input.h"

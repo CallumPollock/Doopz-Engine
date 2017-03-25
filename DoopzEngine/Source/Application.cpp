@@ -129,7 +129,7 @@ bool Application::Update()
 
 	if (m_input.GetButton(1))
 	{
-		std::cout << "X: " << m_input.GetMousePos()[0] << "Y: " << m_input.GetMousePos() [1] << std::endl;
+		//std::cout << "X: " << m_input.GetMousePos()[0] << "Y: " << m_input.GetMousePos() [1] << std::endl;
 	}
 
 	glClearColor(0.2f, 0.8f, 1.0f, 0.0f);

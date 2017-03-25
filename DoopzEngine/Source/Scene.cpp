@@ -19,9 +19,8 @@ Scene::Scene()
 
 	m_gameObjects[0]->ApplyModel("models/cube");
 	m_gameObjects[0]->SetName("Cube 1");
-	m_gameObjects[1]->SetName("Some Text");
-	//m_gameObjects[2]->ApplyModel("models/cube");
-	m_gameObjects[2]->SetName("Some object");
+	m_gameObjects[1]->ApplyModel("models/cube");
+	m_gameObjects[1]->SetName("Cube 2");
 
 	_cube1Angle = 0.0f;
 	_cameraAngleX = 0.0f, _cameraAngleY = 0.0f;
@@ -51,8 +50,8 @@ Scene::Scene()
 
 	glEnable(GL_DEPTH_TEST);
 
-	//m_gameObjects[0]->m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)), glm::vec3(1.0f, 1.0f, 1.0f));
 	m_gameObjects[0]->Translate(0.0f, 0.0f, 0.0f);
+	m_gameObjects[1]->Translate(0.0f, 0.0f, 0.0f);
 
 	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f));
 
@@ -67,26 +66,9 @@ void Scene::SetScreen(SDL_Surface* _screen)
 
 void Scene::Update(float deltaTs)
 {
-	
-	while (_cube1Angle > (3.14159265358979323846 * 2.0))
-	{
-		_cube1Angle -= (3.14159265358979323846 * 2.0);
-	}
-
-	//m_gameObjects[0]->m_modelMatrix = glm::rotate(glm::mat4(1.0f), _cube1Angle, glm::vec3(0, 1, 0));
-
 	_viewMatrix = glm::rotate(glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f)), _cameraAngleX, glm::vec3(1, 0, 0)), _cameraAngleY, glm::vec3(0, 1, 0));
 
 	Draw();
-
-	for (int i = 0; i < m_gameObjects.size(); i++)
-	{
-		/*if (m_gameObjects[i]->m_collider.IsColliding())
-		{
-			std::cout << m_gameObjects[i]->GetName() << " is colliding with another object.\n";
-		}*/
-		
-	}
 
 }
 
@@ -109,6 +91,7 @@ void Scene::Draw()
 
 	glUniform3f(_shaderDiffuseColLocation, 1.0f, 0.3f, 0.3f);
 	m_gameObjects[0]->Draw();
+	m_gameObjects[1]->Draw();
 
 
 

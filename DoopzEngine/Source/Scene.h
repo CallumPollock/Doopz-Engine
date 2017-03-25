@@ -31,7 +31,7 @@ public:
 
 protected:
 
-	int m_objectsInScene = 3;
+	int m_objectsInScene = 2;
 
 	glm::mat4 _viewMatrix;
 

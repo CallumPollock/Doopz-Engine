@@ -1,26 +1,20 @@
-
 #include "Scene.h"
-
-#include <iostream>
-#include <SDL.h>
-
-using namespace std;
 
 Scene::Scene()
 {
 	for (int i = 0; i < m_objectsInScene; i++)
 	{
-		GameObject *newGameObject;
-		m_gameObjects.push_back(newGameObject);
-		m_gameObjects[i] = new GameObject();
+		Cube *newCube = new Cube;
+		m_cubes.push_back(newCube);
+		//m_gameObjects[i] = new GameObject();
 	}
 
-	printf("%i GameObjects in scene\n", m_gameObjects.size());
+	printf("%i GameObjects in scene:\n", m_cubes.size());
 
-	m_gameObjects[0]->ApplyModel("models/cube");
-	m_gameObjects[0]->SetName("Cube 1");
-	m_gameObjects[1]->ApplyModel("models/cube");
-	m_gameObjects[1]->SetName("Cube 2");
+	for (int i = 0; i < m_cubes.size(); i++)
+	{
+		std::cout << m_cubes[i]->GetName() << "\n";
+	}
 
 	_cube1Angle = 0.0f;
 	_cameraAngleX = 0.0f, _cameraAngleY = 0.0f;
@@ -50,8 +44,8 @@ Scene::Scene()
 
 	glEnable(GL_DEPTH_TEST);
 
-	m_gameObjects[0]->Translate(0.0f, 0.0f, 0.0f);
-	m_gameObjects[1]->Translate(0.0f, 0.0f, 0.0f);
+	m_cubes[0]->Translate(0.0f, 0.0f, 0.0f);
+	m_cubes[1]->Translate(2.0f, 2.0f, 2.0f);
 
 	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f));
 
@@ -76,29 +70,25 @@ void Scene::Draw()
 {
 	glUseProgram(_shaderProgram);
 
-	glUniform4fv(_shaderWSLightPosLocation, 1, glm::value_ptr(m_gameObjects[0]->m_modelMatrix * glm::vec4(0, 0, 0, 1)));
-
 	glUniform1i(_shaderTexSamplerLocation, 0);
-
 
 	glUniformMatrix4fv(_shaderViewMatLocation, 1, GL_FALSE, glm::value_ptr(_viewMatrix));
 	glUniformMatrix4fv(_shaderProjMatLocation, 1, GL_FALSE, glm::value_ptr(_projMatrix));
 
 	glUniform3f(_shaderEmissiveColLocation, 0.0f, 0.0f, 0.0f);
 
-	//glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(glm::translate(glm::mat4(1.0f), glm::vec3(30.0f, 0.0f, 0.0f))));
-	glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(m_gameObjects[0]->m_modelMatrix));
+	for (int i = 0; i < m_cubes.size(); i++)
+	{
+		glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->m_modelMatrix));
+		m_cubes[i]->Draw();
+	}
 
 	glUniform3f(_shaderDiffuseColLocation, 1.0f, 0.3f, 0.3f);
-	m_gameObjects[0]->Draw();
-	m_gameObjects[1]->Draw();
-
-
+	
+	
 
 	glUseProgram(0);
 }
-
-
 
 
 bool Scene::CheckShaderCompiled(GLint shader)
@@ -264,11 +254,15 @@ unsigned int Scene::LoadTexture(std::string filename)
 
 Scene::~Scene()
 {
-	for (int i = 0; i < m_gameObjects.size(); i++)
+	for (int i = 0; i < m_cubes.size(); i++)
 	{
-		std::cout<<"Destroying " << m_gameObjects[i]->GetName() << "...\n";
-		m_gameObjects[i]->Destroy();
+		std::cout<<"Destroying " << m_cubes[i]->GetName() << "...";
+		m_cubes[i]->Destroy();
+		std::cout << "(Destroyed)\n";
 	}
-	m_gameObjects.clear();
+
+
+
+	m_cubes.clear();
 
 }

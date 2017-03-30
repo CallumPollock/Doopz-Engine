@@ -107,19 +107,19 @@ bool Application::Update()
 	}
 	if (m_input.GetKey(SDLK_w))
 	{
-		m_scene->m_gameObjects[0]->Translate(0.0f, 10.0f * deltaTime, 0.0f);
+		m_scene->m_cubes[0]->Translate(0.0f, 10.0f * deltaTime, 0.0f);
 	}
 	if (m_input.GetKey(SDLK_s))
 	{
-		m_scene->m_gameObjects[0]->Translate(0.0f, -10.0f * deltaTime, 0.0f);
+		m_scene->m_cubes[0]->Translate(0.0f, -10.0f * deltaTime, 0.0f);
 	}
 	if (m_input.GetKey(SDLK_a))
 	{
-		m_scene->m_gameObjects[0]->Translate(-10.0f * deltaTime, 0.0f, 0.0f);
+		m_scene->m_cubes[0]->Translate(-10.0f * deltaTime, 0.0f, 0.0f);
 	}
 	if (m_input.GetKey(SDLK_d))
 	{
-		m_scene->m_gameObjects[0]->Translate(10.0f * deltaTime, 0.0f, 0.0f);
+		m_scene->m_cubes[0]->Translate(10.0f * deltaTime, 0.0f, 0.0f);
 	}
 
 	if (m_input.GetKey(SDLK_ESCAPE))
@@ -149,17 +149,27 @@ void Application::Exit()
 
 	printf("\nExiting application...\n");
 
+	printf("Destroying window...");
 	if (m_window != NULL)
 	{
 		SDL_DestroyWindow(m_window);
 		m_window = NULL;
-		printf("Destroyed window...\n");
+		printf("(Destroyed)\n");
+	}
+	else
+	{
+		printf("(Failed)\n");
 	}
 	
+	printf("Destroying scene...\n--\n");
 	if (m_scene != NULL)
 	{
 		delete m_scene;
-		printf("Destroyed scene...\n");
+		printf("\n--\nScene destroyed.\n");
+	}
+	else
+	{
+		printf("\n--\n(Failed)\n");
 	}
 	
 

@@ -1,6 +1,8 @@
 #ifndef _SCENE_H
 #define _SCENE_H
 
+#include <iostream>
+#include <string>
 #include <SDL.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>
@@ -9,7 +11,7 @@
 #include <gtc/type_ptr.hpp>
 
 #include "GameObject.h"
-
+#include "Cube.h"
 
 class Scene
 {
@@ -23,13 +25,12 @@ public:
 
 	void Update(float deltaTs);
 
-
 	void Draw();
 
 	void SetScreen(SDL_Surface* _screen);
-	std::vector<GameObject*> m_gameObjects;
+	std::vector<Cube*> m_cubes;
 
-protected:
+protected:	
 
 	int m_objectsInScene = 2;
 
@@ -45,6 +46,7 @@ protected:
 	unsigned int _texture;
 
 	GLuint _shaderProgram;
+
 
 	int _shaderModelMatLocation;
 	int _shaderViewMatLocation;

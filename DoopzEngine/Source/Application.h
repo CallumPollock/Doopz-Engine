@@ -1,6 +1,7 @@
 #ifndef _APPLICATION_H
 #define _APPLICATION_H
 
+#include <iostream>
 #include <SDL.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>

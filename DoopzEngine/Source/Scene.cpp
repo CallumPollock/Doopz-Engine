@@ -15,10 +15,6 @@ Scene::Scene()
 		std::cout << m_cubes[i]->GetName() << "\n";
 	}
 
-	_cube1Angle = 0.0f;
-	_cameraAngleX = 0.0f, _cameraAngleY = 0.0f;
-
-
 	_shaderModelMatLocation = 0;
 	_shaderViewMatLocation = 0;
 	_shaderProjMatLocation = 0;
@@ -43,11 +39,13 @@ Scene::Scene()
 
 	glEnable(GL_DEPTH_TEST);
 
-	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0.0f));
+	_viewMatrix = glm::rotate(glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f)), 45.0f, glm::vec3(1, 0, 0)), 0.0f, glm::vec3(0, 1, 0));
 
 	_projMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
 
 	srand(time(NULL));
+	
+	//m_image = IMG_Load("images/sonic.png");
 
 }
 
@@ -68,19 +66,18 @@ void Scene::SetScreen(SDL_Surface* _screen)
 
 void Scene::Update(float deltaTs)
 {
-	_viewMatrix = glm::rotate(glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f)), _cameraAngleX, glm::vec3(1, 0, 0)), _cameraAngleY, glm::vec3(0, 1, 0));
-
+	SDL_BlitSurface(m_image, NULL, m_screen, NULL);
 	Draw();
+	
 
 	m_timer -= deltaTs;
 
 	if (m_timer <= 0)
 	{
-		
 		int random = rand() % 1000 + (-500);
 		Instantiate("Cube", glm::vec3((float)random / 100, 0, -10));
 		m_cubes[m_cubes.size()-1]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
-		m_timer = 1.0f;
+		m_timer = 0.7f;
 	}
 	
 	for (int i = 2; i < m_cubes.size(); i++)
@@ -96,17 +93,14 @@ void Scene::Update(float deltaTs)
 			UpdateConsole();
 		}
 
-		else if (m_cubes[i]->GetPosition().z > 3.0f)
+		else if (m_cubes[i]->GetPosition().z > 4.0f)
 		{
 			m_cubes[i]->Destroy();
 			m_cubes.erase(m_cubes.begin() + i);
 
 			UpdateConsole();
 		}
-
-		//printf("Position: %f, %f, %f\n", m_cubes[i]->GetPosition().x, m_cubes[i]->GetPosition().y, m_cubes[i]->GetPosition().z);
 	}
-
 }
 
 void Scene::UpdateConsole()
@@ -117,7 +111,6 @@ void Scene::UpdateConsole()
 	{
 		std::cout << m_cubes[i]->GetName() << std::endl;
 	}
-	printf("Pos: %f, %f, %f\n", m_cubes[0]->GetPosition().x, m_cubes[0]->GetPosition().y, m_cubes[0]->GetPosition().z);
 }
 
 void Scene::Draw()
@@ -139,11 +132,8 @@ void Scene::Draw()
 
 	glUniform3f(_shaderDiffuseColLocation, 1.0f, 0.3f, 0.3f);
 	
-	
-
 	glUseProgram(0);
 }
-
 
 bool Scene::CheckShaderCompiled(GLint shader)
 {
@@ -315,7 +305,7 @@ Scene::~Scene()
 		std::cout << "(Destroyed)\n";
 	}
 
-
+	SDL_FreeSurface(m_image);
 
 	m_cubes.clear();
 

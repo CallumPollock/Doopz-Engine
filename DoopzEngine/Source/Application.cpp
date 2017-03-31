@@ -89,22 +89,6 @@ bool Application::Update()
 
 	m_input.Update();
 
-	if (m_input.GetKey(SDLK_RIGHT) )
-	{
-		m_scene->ChangeCameraAngleY(4 * deltaTime);
-	}
-	if (m_input.GetKey(SDLK_LEFT))
-	{
-		m_scene->ChangeCameraAngleY(-4 * deltaTime);
-	}
-	if (m_input.GetKey(SDLK_UP))
-	{
-		m_scene->ChangeCameraAngleX(4 * deltaTime);
-	}
-	if (m_input.GetKey(SDLK_DOWN))
-	{
-		m_scene->ChangeCameraAngleX(-4 * deltaTime);
-	}
 	if (m_input.GetKey(SDLK_w))
 	{
 		m_scene->m_cubes[0]->Translate(glm::vec3(0.0f, 0.0f, -3.0f * deltaTime));
@@ -139,6 +123,7 @@ bool Application::Update()
 	m_scene->Update(deltaTime);
 
 	SDL_GL_SwapWindow(m_window);
+	SDL_UpdateWindowSurface(m_window);
 
 	return isRunning;
 

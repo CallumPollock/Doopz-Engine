@@ -1,19 +1,20 @@
 #ifndef _TEXT_H
 #define _TEXT_H
 
+#include "GameObject.h"
+
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <stdio.h>
 #include <string>
 #include <cmath>
 
-class Text {
+class Text :GameObject {
 
 public:
-	Text();
 	std::string m_text = "insert text here";
-	SDL_Surface* SetText(const char* _font, const char* _text);
-
+	void SetText(const char* _font, const char* _text);
 
 private:
 

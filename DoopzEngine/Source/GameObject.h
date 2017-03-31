@@ -10,8 +10,6 @@
 #include <gtc/type_ptr.hpp>
 #include <vector>
 
-#include "SphereCollider.h"
-
 class GameObject {
 
 public:
@@ -22,8 +20,6 @@ public:
 	void SetName(std::string _name);
 
 	//glm::mat4 m_modelMatrix;
-
-	SphereCollider m_collider;
 
 private:
 

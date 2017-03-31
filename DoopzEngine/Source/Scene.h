@@ -23,9 +23,6 @@ public:
 	Scene();
 	~Scene();
 
-	void ChangeCameraAngleX(float value) { _cameraAngleX += value; };
-	void ChangeCameraAngleY(float value) { _cameraAngleY += value; };
-
 	void Update(float deltaTs);
 
 	void Draw();
@@ -38,6 +35,8 @@ protected:
 	void UpdateConsole();
 	void Instantiate(std::string _name, glm::vec3 _pos);
 
+	SDL_Surface* m_image = NULL;
+
 	float m_timer = 0.0;
 
 	glm::mat4 _viewMatrix;
@@ -47,7 +46,6 @@ protected:
 	glm::mat4 _projMatrix;
 
 	float _cube1Angle;
-	float _cameraAngleX, _cameraAngleY, _cameraMoveX, _cameraMoveY;
 
 	unsigned int _texture;
 

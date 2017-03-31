@@ -11,7 +11,10 @@ public:
 	void ApplyModel();
 
 	void Draw();
-	void Translate(float x, float y, float z);
+	void Translate(glm::vec3 _pos);
+	void Scale(glm::vec3 _sca);
+	glm::vec3 GetPosition();
+
 	glm::mat4 m_modelMatrix;
 	//bool SetSurfaceTexture(const char *_file);
 
@@ -35,6 +38,7 @@ private:
 	std::vector<glm::vec2> m_texcoords;
 
 	glm::vec3 m_pos;
+	glm::vec3 m_sca;
 };
 
 #endif

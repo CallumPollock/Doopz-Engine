@@ -2,12 +2,11 @@
 
 Scene::Scene()
 {
-	for (int i = 0; i < m_objectsInScene; i++)
-	{
-		Cube *newCube = new Cube;
-		m_cubes.push_back(newCube);
-		//m_gameObjects[i] = new GameObject();
-	}
+	Instantiate("Player", glm::vec3(0, 0.2f, 0));
+	m_cubes[0]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
+
+	Instantiate("Floor", glm::vec3(0, -1.0f, 0));
+	m_cubes[1]->Scale(glm::vec3(10000.0f, 1.0f, 10000.0f));
 
 	printf("%i GameObjects in scene:\n", m_cubes.size());
 
@@ -44,13 +43,22 @@ Scene::Scene()
 
 	glEnable(GL_DEPTH_TEST);
 
-	m_cubes[0]->Translate(0.0f, 0.0f, 0.0f);
-	m_cubes[1]->Translate(2.0f, 2.0f, 2.0f);
-
-	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.5f));
+	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0.0f));
 
 	_projMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
 
+	srand(time(NULL));
+
+}
+
+void Scene::Instantiate(std::string _name, glm::vec3 _pos)
+{
+	Cube* newCube = new Cube;
+	newCube->Translate(_pos);
+	newCube->SetName(_name + " (clone)");
+	m_cubes.push_back(newCube);
+
+	UpdateConsole();
 }
 
 void Scene::SetScreen(SDL_Surface* _screen)
@@ -64,6 +72,52 @@ void Scene::Update(float deltaTs)
 
 	Draw();
 
+	m_timer -= deltaTs;
+
+	if (m_timer <= 0)
+	{
+		
+		int random = rand() % 1000 + (-500);
+		Instantiate("Cube", glm::vec3((float)random / 100, 0, -10));
+		m_cubes[m_cubes.size()-1]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
+		m_timer = 1.0f;
+	}
+	
+	for (int i = 2; i < m_cubes.size(); i++)
+	{
+		m_cubes[i]->Translate(glm::vec3(0, 0, deltaTs*2));
+
+		if ((m_cubes[0]->GetPosition().x > m_cubes[i]->GetPosition().x - 0.3f) && (m_cubes[0]->GetPosition().x < m_cubes[i]->GetPosition().x + 0.3f)
+			&& (m_cubes[0]->GetPosition().z > m_cubes[i]->GetPosition().z - 0.3f) && (m_cubes[0]->GetPosition().z < m_cubes[i]->GetPosition().z + 0.3f))
+		{
+			m_cubes[i]->Destroy();
+			m_cubes.erase(m_cubes.begin() + i);
+
+			UpdateConsole();
+		}
+
+		else if (m_cubes[i]->GetPosition().z > 3.0f)
+		{
+			m_cubes[i]->Destroy();
+			m_cubes.erase(m_cubes.begin() + i);
+
+			UpdateConsole();
+		}
+
+		//printf("Position: %f, %f, %f\n", m_cubes[i]->GetPosition().x, m_cubes[i]->GetPosition().y, m_cubes[i]->GetPosition().z);
+	}
+
+}
+
+void Scene::UpdateConsole()
+{
+	system("cls");
+	printf("%i GameObjects in scene: \n", m_cubes.size());
+	for (int i = 0; i < m_cubes.size(); i++)
+	{
+		std::cout << m_cubes[i]->GetName() << std::endl;
+	}
+	printf("Pos: %f, %f, %f\n", m_cubes[0]->GetPosition().x, m_cubes[0]->GetPosition().y, m_cubes[0]->GetPosition().z);
 }
 
 void Scene::Draw()
@@ -193,7 +247,6 @@ void Scene::BuildShaders()
 
 	glAttachShader(_shaderProgram, vShader);
 
-
 	GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fShader, 1, &fShaderText, NULL);
 	glCompileShader(fShader);
@@ -254,6 +307,7 @@ unsigned int Scene::LoadTexture(std::string filename)
 
 Scene::~Scene()
 {
+
 	for (int i = 0; i < m_cubes.size(); i++)
 	{
 		std::cout<<"Destroying " << m_cubes[i]->GetName() << "...";

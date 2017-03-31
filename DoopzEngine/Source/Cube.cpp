@@ -3,7 +3,7 @@
 Cube::Cube()
 {
 	Model::LoadModel("cube");
-	Model::SetName("Cube");
+	SetName("Cube");
 }
 
 Cube::~Cube()

@@ -89,7 +89,7 @@ bool Application::Update()
 
 	m_input.Update();
 
-	if (m_input.GetKey(SDLK_RIGHT))
+	if (m_input.GetKey(SDLK_RIGHT) )
 	{
 		m_scene->ChangeCameraAngleY(4 * deltaTime);
 	}
@@ -107,19 +107,19 @@ bool Application::Update()
 	}
 	if (m_input.GetKey(SDLK_w))
 	{
-		m_scene->m_cubes[0]->Translate(0.0f, 10.0f * deltaTime, 0.0f);
+		m_scene->m_cubes[0]->Translate(glm::vec3(0.0f, 0.0f, -3.0f * deltaTime));
 	}
 	if (m_input.GetKey(SDLK_s))
 	{
-		m_scene->m_cubes[0]->Translate(0.0f, -10.0f * deltaTime, 0.0f);
+		m_scene->m_cubes[0]->Translate(glm::vec3(0.0f, 0.0f, 3.0f * deltaTime));
 	}
 	if (m_input.GetKey(SDLK_a))
 	{
-		m_scene->m_cubes[0]->Translate(-10.0f * deltaTime, 0.0f, 0.0f);
+		m_scene->m_cubes[0]->Translate(glm::vec3(-3.0f * deltaTime, 0.0f, 0.0f));
 	}
 	if (m_input.GetKey(SDLK_d))
 	{
-		m_scene->m_cubes[0]->Translate(10.0f * deltaTime, 0.0f, 0.0f);
+		m_scene->m_cubes[0]->Translate(glm::vec3(3.0f * deltaTime, 0.0f, 0.0f));
 	}
 
 	if (m_input.GetKey(SDLK_ESCAPE))

@@ -10,6 +10,9 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
+
 #include "GameObject.h"
 #include "Cube.h"
 
@@ -32,7 +35,10 @@ public:
 
 protected:	
 
-	int m_objectsInScene = 2;
+	void UpdateConsole();
+	void Instantiate(std::string _name, glm::vec3 _pos);
+
+	float m_timer = 0.0;
 
 	glm::mat4 _viewMatrix;
 

@@ -9,8 +9,6 @@ void Model::LoadModel(std::string _file)
 
 	std::ifstream mFile;
 
-	std::cout << "Opening " << _file << ".obj \n";
-
 	mFile.open("models/" + _file + ".obj");
 
 
@@ -30,7 +28,6 @@ void Model::LoadModel(std::string _file)
 	if (mFile.is_open())
 	{
 		objLoaded = true;
-		std::cout << "Opened " << _file << ".obj successfully!\n";
 
 		while (!mFile.eof())
 		{

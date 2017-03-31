@@ -11,7 +11,6 @@ void Object::ApplyModel()
 		glBindVertexArray(_VAO);
 
 		_numVertices = GetVertices().size();
-		printf("Vertices loaded: %u | Triangles loaded: %u\n\n", _numVertices, _numVertices / 3);
 
 
 		GLuint buffer = 0;
@@ -67,13 +66,26 @@ void Object::ApplyModel()
 	}
 }
 
-void Object::Translate(float x, float y, float z)
+glm::vec3 Object::GetPosition()
 {
-	m_pos.x += x;
-	m_pos.y += y;
-	m_pos.z += z;
-	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(1.0f, 1.0f, 0.5f));
-	printf("Position is X%f, Y%f, Z%f\n", m_pos.x, m_pos.y, m_pos.z);
+	return m_pos;
+}
+
+void Object::Translate(glm::vec3 _pos)
+{
+	m_pos.x += _pos.x;
+	m_pos.y += _pos.y;
+	m_pos.z += _pos.z;
+	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(m_sca.x, m_sca.y, m_sca.z));
+}
+
+void Object::Scale(glm::vec3 _sca)
+{
+	m_sca.x += _sca.x;
+	m_sca.y += _sca.y;
+	m_sca.z += _sca.z;
+	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(m_sca.x, m_sca.y, m_sca.z));
+
 }
 
 void Object::Draw()

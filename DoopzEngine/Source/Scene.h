@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <SDL.h>
+#include <SDL_image.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>
 #include <glm.hpp>

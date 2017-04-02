@@ -45,7 +45,7 @@ Scene::Scene()
 
 	srand(time(NULL));
 	
-	//m_image = IMG_Load("images/sonic.png");
+	m_image = IMG_Load("images/sonic.png");
 
 }
 

@@ -2,17 +2,17 @@
 
 Scene::Scene()
 {
-	Instantiate("Player", glm::vec3(0, 0.2f, 0));
-	m_cubes[0]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
+	Instantiate(cube, "Player", glm::vec3(0, 0.2f, 0));
+	m_objects[0]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
 
-	Instantiate("Floor", glm::vec3(0, -1.0f, 0));
-	m_cubes[1]->Scale(glm::vec3(10000.0f, 1.0f, 10000.0f));
+	Instantiate(cube, "Floor", glm::vec3(0, -1.0f, 0));
+	m_objects[1]->Scale(glm::vec3(10000.0f, 1.0f, 10000.0f));
 
-	printf("%i GameObjects in scene:\n", m_cubes.size());
+	printf("%i GameObjects in scene:\n", m_objects.size());
 
-	for (int i = 0; i < m_cubes.size(); i++)
+	for (int i = 0; i < m_objects.size(); i++)
 	{
-		std::cout << m_cubes[i]->GetName() << "\n";
+		std::cout << m_objects[i]->GetName() << "\n";
 	}
 
 	_shaderModelMatLocation = 0;
@@ -45,16 +45,31 @@ Scene::Scene()
 
 	srand(time(NULL));
 	
-	m_image = IMG_Load("images/sonic.png");
+	//m_image = IMG_Load("images/sonic.png");
 
 }
 
-void Scene::Instantiate(std::string _name, glm::vec3 _pos)
+void Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
 {
-	Cube* newCube = new Cube;
-	newCube->Translate(_pos);
-	newCube->SetName(_name + " (clone)");
-	m_cubes.push_back(newCube);
+	Object *newObject;
+	switch (_type)
+	{
+	case cube:
+		newObject = (Object*)new Cube;
+		break;
+
+	case plane:
+		newObject = (Object*)new Plane;
+		break;
+
+	default:
+		newObject = new Object;
+		break;
+	}
+
+	newObject->Translate(_pos);
+	newObject->SetName(_name + " (clone)");
+	m_objects.push_back(newObject);
 
 	UpdateConsole();
 }
@@ -66,7 +81,7 @@ void Scene::SetScreen(SDL_Surface* _screen)
 
 void Scene::Update(float deltaTs)
 {
-	SDL_BlitSurface(m_image, NULL, m_screen, NULL);
+	//SDL_BlitSurface(m_image, NULL, m_screen, NULL);
 	Draw();
 	
 
@@ -75,28 +90,28 @@ void Scene::Update(float deltaTs)
 	if (m_timer <= 0)
 	{
 		int random = rand() % 1000 + (-500);
-		Instantiate("Cube", glm::vec3((float)random / 100, 0, -10));
-		m_cubes[m_cubes.size()-1]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
+		Instantiate(cube, "Cube", glm::vec3((float)random / 100, 0, -10));
+		m_objects[m_objects.size()-1]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
 		m_timer = 0.7f;
 	}
 	
-	for (int i = 2; i < m_cubes.size(); i++)
+	for (int i = 2; i < m_objects.size(); i++)
 	{
-		m_cubes[i]->Translate(glm::vec3(0, 0, deltaTs*2));
+		m_objects[i]->Translate(glm::vec3(0, 0, deltaTs*2));
 
-		if ((m_cubes[0]->GetPosition().x > m_cubes[i]->GetPosition().x - 0.3f) && (m_cubes[0]->GetPosition().x < m_cubes[i]->GetPosition().x + 0.3f)
-			&& (m_cubes[0]->GetPosition().z > m_cubes[i]->GetPosition().z - 0.3f) && (m_cubes[0]->GetPosition().z < m_cubes[i]->GetPosition().z + 0.3f))
+		if ((m_objects[0]->GetPosition().x > m_objects[i]->GetPosition().x - 0.3f) && (m_objects[0]->GetPosition().x < m_objects[i]->GetPosition().x + 0.3f)
+			&& (m_objects[0]->GetPosition().z > m_objects[i]->GetPosition().z - 0.3f) && (m_objects[0]->GetPosition().z < m_objects[i]->GetPosition().z + 0.3f))
 		{
-			m_cubes[i]->Destroy();
-			m_cubes.erase(m_cubes.begin() + i);
+			m_objects[i]->Destroy();
+			m_objects.erase(m_objects.begin() + i);
 
 			UpdateConsole();
 		}
 
-		else if (m_cubes[i]->GetPosition().z > 4.0f)
+		else if (m_objects[i]->GetPosition().z > 4.0f)
 		{
-			m_cubes[i]->Destroy();
-			m_cubes.erase(m_cubes.begin() + i);
+			m_objects[i]->Destroy();
+			m_objects.erase(m_objects.begin() + i);
 
 			UpdateConsole();
 		}
@@ -105,11 +120,11 @@ void Scene::Update(float deltaTs)
 
 void Scene::UpdateConsole()
 {
-	system("cls");
-	printf("%i GameObjects in scene: \n", m_cubes.size());
-	for (int i = 0; i < m_cubes.size(); i++)
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("%i GameObjects in scene: \n", m_objects.size());
+	for (int i = 0; i < m_objects.size(); i++)
 	{
-		std::cout << m_cubes[i]->GetName() << std::endl;
+		std::cout << m_objects[i]->GetName() << std::endl;
 	}
 }
 
@@ -124,10 +139,10 @@ void Scene::Draw()
 
 	glUniform3f(_shaderEmissiveColLocation, 0.0f, 0.0f, 0.0f);
 
-	for (int i = 0; i < m_cubes.size(); i++)
+	for (int i = 0; i < m_objects.size(); i++)
 	{
-		glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(m_cubes[i]->m_modelMatrix));
-		m_cubes[i]->Draw();
+		glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(m_objects[i]->m_modelMatrix));
+		m_objects[i]->Draw();
 	}
 
 	glUniform3f(_shaderDiffuseColLocation, 1.0f, 0.3f, 0.3f);
@@ -298,15 +313,15 @@ unsigned int Scene::LoadTexture(std::string filename)
 Scene::~Scene()
 {
 
-	for (int i = 0; i < m_cubes.size(); i++)
+	for (int i = 0; i < m_objects.size(); i++)
 	{
-		std::cout<<"Destroying " << m_cubes[i]->GetName() << "...";
-		m_cubes[i]->Destroy();
+		std::cout<<"Destroying " << m_objects[i]->GetName() << "...";
+		m_objects[i]->Destroy();
 		std::cout << "(Destroyed)\n";
 	}
 
 	SDL_FreeSurface(m_image);
 
-	m_cubes.clear();
+	m_objects.clear();
 
 }

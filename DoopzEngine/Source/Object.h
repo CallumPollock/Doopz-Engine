@@ -16,7 +16,8 @@ public:
 	glm::vec3 GetPosition();
 
 	glm::mat4 m_modelMatrix;
-	//bool SetSurfaceTexture(const char *_file);
+
+	bool SetSurfaceTexture(const char *_file);
 
 	std::vector<glm::vec3> GetVertices();
 	void SetVertices(std::vector<glm::vec3> _vertices);
@@ -31,7 +32,7 @@ private:
 	GLuint _VAO;
 	unsigned int _numVertices;
 
-	SDL_Surface surface;
+	SDL_Surface* m_surface;
 
 	std::vector<glm::vec3> m_vertices;
 	std::vector<glm::vec3> m_normals;

@@ -85,7 +85,6 @@ void Object::Scale(glm::vec3 _sca)
 	m_sca.y += _sca.y;
 	m_sca.z += _sca.z;
 	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(m_sca.x, m_sca.y, m_sca.z));
-
 }
 
 void Object::Draw()
@@ -98,16 +97,16 @@ void Object::Draw()
 
 }
 
-/*bool Object::SetSurfaceTexture(const char *_file)
+bool Object::SetSurfaceTexture(const char *_file)
 {
-	surface = SDL_LoadBMP(_file);
-	if (surface == NULL)
+	m_surface = SDL_LoadBMP(_file);
+	if (m_surface == NULL)
 	{
 		printf("Unable to load file %s! SDL Error: %s\n", _file, SDL_GetError());
 		return false;
 	}
 	return true;
-}*/
+}
 
 std::vector<glm::vec3> Object::GetVertices()
 {

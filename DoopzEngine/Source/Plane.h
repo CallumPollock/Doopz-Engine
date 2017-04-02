@@ -1,13 +1,13 @@
-#ifndef _CUBE_H
-#define _CUBE_H
+#ifndef _PLANE_H
+#define _PLANE_H
 
-#include "Model.h"
+#include "Object.h"
 
-class Cube : public Model
+class Plane : public Object
 {
 public:
-	Cube();
-	~Cube();
+	Plane();
+	~Plane();
 
 private:
 	std::vector<glm::vec3> m_vertices;

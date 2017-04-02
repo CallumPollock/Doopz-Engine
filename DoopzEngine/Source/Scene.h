@@ -15,7 +15,9 @@
 #include <time.h>       /* time */
 
 #include "GameObject.h"
+#include "Object.h"
 #include "Cube.h"
+#include "Plane.h"
 
 class Scene
 {
@@ -29,12 +31,17 @@ public:
 	void Draw();
 
 	void SetScreen(SDL_Surface* _screen);
-	std::vector<Cube*> m_cubes;
+	std::vector<Object*> m_objects;
 
 protected:	
 
+	enum objectType {
+		cube,
+		plane
+	};
+
 	void UpdateConsole();
-	void Instantiate(std::string _name, glm::vec3 _pos);
+	void Instantiate(objectType _type, std::string _name, glm::vec3 _pos);
 
 	SDL_Surface* m_image = NULL;
 

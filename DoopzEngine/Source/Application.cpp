@@ -91,19 +91,19 @@ bool Application::Update()
 
 	if (m_input.GetKey(SDLK_w))
 	{
-		m_scene->m_cubes[0]->Translate(glm::vec3(0.0f, 0.0f, -3.0f * deltaTime));
+		m_scene->m_objects[0]->Translate(glm::vec3(0.0f, 0.0f, -3.0f * deltaTime));
 	}
 	if (m_input.GetKey(SDLK_s))
 	{
-		m_scene->m_cubes[0]->Translate(glm::vec3(0.0f, 0.0f, 3.0f * deltaTime));
+		m_scene->m_objects[0]->Translate(glm::vec3(0.0f, 0.0f, 3.0f * deltaTime));
 	}
 	if (m_input.GetKey(SDLK_a))
 	{
-		m_scene->m_cubes[0]->Translate(glm::vec3(-3.0f * deltaTime, 0.0f, 0.0f));
+		m_scene->m_objects[0]->Translate(glm::vec3(-3.0f * deltaTime, 0.0f, 0.0f));
 	}
 	if (m_input.GetKey(SDLK_d))
 	{
-		m_scene->m_cubes[0]->Translate(glm::vec3(3.0f * deltaTime, 0.0f, 0.0f));
+		m_scene->m_objects[0]->Translate(glm::vec3(3.0f * deltaTime, 0.0f, 0.0f));
 	}
 
 	if (m_input.GetKey(SDLK_ESCAPE))
@@ -123,7 +123,6 @@ bool Application::Update()
 	m_scene->Update(deltaTime);
 
 	SDL_GL_SwapWindow(m_window);
-	SDL_UpdateWindowSurface(m_window);
 
 	return isRunning;
 

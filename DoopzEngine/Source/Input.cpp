@@ -71,6 +71,19 @@ void Input::ButtonUp(int _button)
 	}
 }
 
+bool Input::GetButtonDown(int _button)
+{
+	for (int i = 0; i < buttonsDown.size(); i++)
+	{
+		if (buttonsDown.at(i) == _button)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Input::UpdateMousePos(float _x, float _y)
 {
 	mousePos[0] = _x;
@@ -84,6 +97,7 @@ std::vector<float> Input::GetMousePos()
 
 void Input::Update()
 {
+	buttonsDown.clear();
 
 	if (SDL_PollEvent(&m_event) != 0)
 	{
@@ -103,6 +117,7 @@ void Input::Update()
 
 		case SDL_MOUSEBUTTONDOWN:
 			ButtonDown(m_event.button.button);
+			buttonsDown.push_back(m_event.button.button);
 			break;
 
 		case SDL_MOUSEBUTTONUP:

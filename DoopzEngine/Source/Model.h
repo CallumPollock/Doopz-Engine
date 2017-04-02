@@ -14,7 +14,6 @@ public:
 	~Model();
 
 	void LoadModel(std::string _file);
-	
 
 private:
 	

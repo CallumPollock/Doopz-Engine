@@ -3,17 +3,10 @@
 Scene::Scene()
 {
 	Instantiate(cube, "Player", glm::vec3(0, 0.2f, 0));
-	m_objects[0]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
+	m_objects[0]->Scale(-glm::vec3(0.6f, 0.7f, 0.6f));
 
 	Instantiate(cube, "Floor", glm::vec3(0, -1.0f, 0));
-	m_objects[1]->Scale(glm::vec3(10000.0f, 1.0f, 10000.0f));
-
-	printf("%i GameObjects in scene:\n", m_objects.size());
-
-	for (int i = 0; i < m_objects.size(); i++)
-	{
-		std::cout << m_objects[i]->GetName() << "\n";
-	}
+	m_objects[1]->Scale(glm::vec3(10000.0f, 0.0f, 10000.0f));
 
 	_shaderModelMatLocation = 0;
 	_shaderViewMatLocation = 0;
@@ -47,7 +40,7 @@ Scene::Scene()
 
 }
 
-void Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
+Object* Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
 {
 	Object *newObject;
 	switch (_type)
@@ -60,6 +53,14 @@ void Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
 		newObject = (Object*)new Plane;
 		break;
 
+	case bullet:
+		newObject = (Object*)new Bullet;
+		break;
+
+	case enemy:
+		newObject = (Object*)new Enemy;
+		break;
+
 	default:
 		newObject = new Object;
 		break;
@@ -70,6 +71,15 @@ void Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
 	m_objects.push_back(newObject);
 
 	UpdateConsole();
+
+	return newObject;
+}
+
+void Scene::Fire()
+{
+	Object* projectile;
+	projectile = Instantiate(bullet, "Bullet", m_objects[0]->GetPosition());
+	projectile->Scale(-glm::vec3(0.9f, 0.9f, 0.9f));
 }
 
 bool Scene::Update(float deltaTs)
@@ -82,31 +92,39 @@ bool Scene::Update(float deltaTs)
 	if (m_timer <= 0)
 	{
 		int random = rand() % 1000 + (-500);
-		Instantiate(cube, "Cube", glm::vec3((float)random / 100, 0, -10));
-		m_objects[m_objects.size()-1]->Scale(glm::vec3(0.2f, 0.3f, 0.3f));
-		m_timer = 0.7f;
+		Instantiate(enemy, "Enemy", glm::vec3((float)random / 70, 0, -20));
+		random = rand() % 1000;
+		m_objects[m_objects.size()-1]->Scale(glm::vec3((float)random/700, 0.3f, (float)random / 500));
+		m_timer = 1.0f;
 	}
 	
-	for (int i = 2; i < m_objects.size(); i++)
+	for (int i = 0; i < m_objects.size(); i++)
 	{
-		m_objects[i]->Translate(glm::vec3(0, 0, deltaTs*2));
 
-		if ((m_objects[0]->GetPosition().x > m_objects[i]->GetPosition().x - 0.3f) && (m_objects[0]->GetPosition().x < m_objects[i]->GetPosition().x + 0.3f)
-			&& (m_objects[0]->GetPosition().z > m_objects[i]->GetPosition().z - 0.3f) && (m_objects[0]->GetPosition().z < m_objects[i]->GetPosition().z + 0.3f))
+		m_objects[i]->Update(deltaTs);
+		//m_objects[i]->Translate(glm::vec3(0, 0, deltaTs*2));
+		if (i >= 2)//Applies to all objects, except player and floor
 		{
-			m_objects[i]->Destroy();
-			m_objects.erase(m_objects.begin() + i);
+			if ((   m_objects[0]->GetPosition().x > m_objects[i]->GetPosition().x - (1.0f * m_objects[i]->GetScale().x))
+						&& (m_objects[0]->GetPosition().x < m_objects[i]->GetPosition().x + (1.0f * m_objects[i]->GetScale().x))
+						&& (m_objects[0]->GetPosition().z > m_objects[i]->GetPosition().z - (1.0f  * m_objects[i]->GetScale().z))
+						&& (m_objects[0]->GetPosition().z < m_objects[i]->GetPosition().z + (1.0f  * m_objects[i]->GetScale().z)))
+					{
+						//m_objects[i]->Destroy();
+						//m_objects.erase(m_objects.begin() + i);
 
-			gameEnd = true;
+						//gameEnd = true;
+					}
+
+					else if (m_objects[i]->GetPosition().z > 4.0f)
+					{
+						delete m_objects[i];
+						m_objects.erase(m_objects.begin() + i);
+
+						UpdateConsole();
+					}
 		}
-
-		else if (m_objects[i]->GetPosition().z > 4.0f)
-		{
-			m_objects[i]->Destroy();
-			m_objects.erase(m_objects.begin() + i);
-
-			UpdateConsole();
-		}
+		
 	}
 
 	return gameEnd;
@@ -120,6 +138,7 @@ void Scene::UpdateConsole()
 	{
 		std::cout << m_objects[i]->GetName() << std::endl;
 	}
+	
 }
 
 void Scene::Draw()
@@ -310,7 +329,7 @@ Scene::~Scene()
 	for (int i = 0; i < m_objects.size(); i++)
 	{
 		std::cout<<"Destroying " << m_objects[i]->GetName() << "...";
-		m_objects[i]->Destroy();
+		delete m_objects[i];
 		std::cout << "(Destroyed)\n";
 	}
 

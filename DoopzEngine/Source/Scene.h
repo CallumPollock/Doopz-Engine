@@ -18,6 +18,8 @@
 #include "Object.h"
 #include "Cube.h"
 #include "Plane.h"
+#include "Bullet.h"
+#include "Enemy.h"
 
 class Scene
 {
@@ -32,17 +34,21 @@ public:
 
 	std::vector<Object*> m_objects;
 
+	void Fire();
+
 protected:	
 
 	enum objectType {
 		cube,
-		plane
+		plane,
+		bullet,
+		enemy
 	};
 
 	bool gameEnd = false;
 
 	void UpdateConsole();
-	void Instantiate(objectType _type, std::string _name, glm::vec3 _pos);
+	Object* Instantiate(objectType _type, std::string _name, glm::vec3 _pos);
 
 	float m_timer = 0.0;
 

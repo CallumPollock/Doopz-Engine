@@ -14,7 +14,6 @@ class GameObject {
 
 public:
 	GameObject();
-	void Destroy();
 
 	std::string GetName();
 	void SetName(std::string _name);

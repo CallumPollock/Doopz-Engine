@@ -11,6 +11,7 @@ public:
 	Input();
 	bool GetKey(SDL_Keycode _key);
 	bool GetButton(int _button);
+	bool GetButtonDown(int _button);
 	std::vector<float> GetMousePos();
 	void Update();
 
@@ -24,6 +25,7 @@ private:
 
 	
 	std::vector<int> buttons;
+	std::vector<int> buttonsDown;
 	void ButtonUp(int _button);
 	void ButtonDown(int _button);
 	

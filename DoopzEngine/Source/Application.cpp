@@ -110,9 +110,9 @@ bool Application::Update()
 		isRunning = false;
 	}
 
-	if (m_input.GetButton(1))
+	if (m_input.GetButtonDown(1))
 	{
-		//std::cout << "X: " << m_input.GetMousePos()[0] << "Y: " << m_input.GetMousePos() [1] << std::endl;
+		m_scene->Fire();
 	}
 
 	glClearColor(0.2f, 0.8f, 1.0f, 0.0f);

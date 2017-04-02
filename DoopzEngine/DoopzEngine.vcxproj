@@ -103,7 +103,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib\SDL2-2.0.5\lib\x86;$(ProjectDir)\lib\glew-2.0.0\lib\Release\Win32;$(ProjectDir)\lib\freeglut\lib;$(ProjectDir)\lib\SDL2_image-2.0.1\lib;$(ProjectDir)\lib\SDL2_ttf-2.0.14\lib;$(ProjectDir)\lib\FreeType\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;freetype271.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,7 +120,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib\SDL2-2.0.5\lib\x64;$(ProjectDir)\lib\glew-2.0.0\lib\Release\Win32;$(ProjectDir)\lib\freeglut\lib;$(ProjectDir)\lib\SDL2_image-2.0.1\lib;$(ProjectDir)\lib\SDL2_ttf-2.0.14\lib;$(ProjectDir)\lib\FreeType\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;freetype271.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib\SDL2-2.0.5\lib\x86;$(ProjectDir)\lib\glew-2.0.0\lib\Release\Win32;$(ProjectDir)\lib\freeglut\lib;$(ProjectDir)\lib\SDL2_image-2.0.1\lib;$(ProjectDir)\lib\SDL2_ttf-2.0.14\lib;$(ProjectDir)\lib\FreeType\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;freetype271.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,12 +162,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)\lib\SDL2-2.0.5\lib\x64;$(ProjectDir)\lib\glew-2.0.0\lib\Release\Win32;$(ProjectDir)\lib\freeglut\lib;$(ProjectDir)\lib\SDL2_image-2.0.1\lib;$(ProjectDir)\lib\SDL2_ttf-2.0.14\lib;$(ProjectDir)\lib\FreeType\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib;freetype271.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;freeglut.lib;glew32.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Cube.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -181,7 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Cube.h" />
+    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Model.h" />

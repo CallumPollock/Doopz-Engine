@@ -6,14 +6,19 @@
 class Object : public GameObject {
 
 public:
+	Object();
 	~Object();
 
 	void ApplyModel();
 
 	void Draw();
+	virtual void Update(float _deltaTime);
+
 	void Translate(glm::vec3 _pos);
 	void Scale(glm::vec3 _sca);
+	void Rotate(glm::vec3 _rot);
 	glm::vec3 GetPosition();
+	glm::vec3 GetScale();
 
 	glm::mat4 m_modelMatrix;
 
@@ -40,6 +45,7 @@ private:
 
 	glm::vec3 m_pos;
 	glm::vec3 m_sca;
+	glm::vec3 m_rot;
 };
 
 #endif

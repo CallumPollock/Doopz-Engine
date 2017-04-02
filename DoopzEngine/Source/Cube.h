@@ -8,6 +8,7 @@ class Cube : public Model
 public:
 	Cube();
 	~Cube();
+	void Update(float _deltaTime);
 
 private:
 	std::vector<glm::vec3> m_vertices;

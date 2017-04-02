@@ -1,5 +1,11 @@
 #include "Object.h"
 
+Object::Object()
+{
+	m_sca = glm::vec3(1.0f, 1.0f, 1.0f);
+	m_pos = glm::vec3(0.0f, 0.0f, 0.0f);
+}
+
 void Object::ApplyModel()
 {
 	if (Object::GetVertices().size() >= 1)
@@ -71,12 +77,17 @@ glm::vec3 Object::GetPosition()
 	return m_pos;
 }
 
+glm::vec3 Object::GetScale()
+{
+	return m_sca;
+}
+
 void Object::Translate(glm::vec3 _pos)
 {
 	m_pos.x += _pos.x;
 	m_pos.y += _pos.y;
 	m_pos.z += _pos.z;
-	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(m_sca.x, m_sca.y, m_sca.z));
+	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), m_sca);
 }
 
 void Object::Scale(glm::vec3 _sca)
@@ -84,7 +95,19 @@ void Object::Scale(glm::vec3 _sca)
 	m_sca.x += _sca.x;
 	m_sca.y += _sca.y;
 	m_sca.z += _sca.z;
-	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), glm::vec3(m_sca.x, m_sca.y, m_sca.z));
+	m_modelMatrix = glm::scale(glm::translate(glm::mat4(1.0f), m_pos), m_sca);
+}
+
+void Object::Rotate(glm::vec3 _rot)
+{
+	m_rot.x += _rot.x;
+	m_rot.y += _rot.y;
+	m_rot.z += _rot.z;
+	m_modelMatrix = glm::rotate(glm::mat4(1.0f), m_rot.z, m_rot);
+}
+
+void Object::Update(float _deltaTime)
+{
 }
 
 void Object::Draw()

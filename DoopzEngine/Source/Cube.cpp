@@ -139,7 +139,11 @@ Cube::Cube()
 	ApplyModel();*/
 }
 
+void Cube::Update(float _deltaTime)
+{
+}
+
 Cube::~Cube()
 {
-
+	
 }

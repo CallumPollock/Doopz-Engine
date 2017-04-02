@@ -5,12 +5,6 @@ GameObject::GameObject()
 	m_name = " ";
 }
 
-void GameObject::Destroy()
-{
-	
-	delete this;
-}
-
 std::string GameObject::GetName()
 {
 	return m_name;

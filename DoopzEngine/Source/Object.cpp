@@ -105,6 +105,18 @@ bool Object::SetSurfaceTexture(const char *_file)
 		printf("Unable to load file %s! SDL Error: %s\n", _file, SDL_GetError());
 		return false;
 	}
+
+	SDL_Texture* newTexture = NULL;
+//	newTexture = SDL_CreateTextureFromSurface(gRenderer, m_surface);
+
+	if (newTexture == NULL)
+	{
+		printf("Unable to create texture from %s! SDL Error: %s\n", _file, SDL_GetError());
+		return false;
+	}
+
+	//Get rid of old loaded surface
+	SDL_FreeSurface(m_surface);
 	return true;
 }
 

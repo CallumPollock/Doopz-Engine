@@ -44,8 +44,6 @@ Scene::Scene()
 	_projMatrix = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
 
 	srand(time(NULL));
-	
-	//m_image = IMG_Load("images/sonic.png");
 
 }
 
@@ -74,16 +72,10 @@ void Scene::Instantiate(objectType _type, std::string _name, glm::vec3 _pos)
 	UpdateConsole();
 }
 
-void Scene::SetScreen(SDL_Surface* _screen)
+bool Scene::Update(float deltaTs)
 {
-	m_screen = _screen;
-}
-
-void Scene::Update(float deltaTs)
-{
-	//SDL_BlitSurface(m_image, NULL, m_screen, NULL);
-	Draw();
 	
+	Draw();
 
 	m_timer -= deltaTs;
 
@@ -105,7 +97,7 @@ void Scene::Update(float deltaTs)
 			m_objects[i]->Destroy();
 			m_objects.erase(m_objects.begin() + i);
 
-			UpdateConsole();
+			gameEnd = true;
 		}
 
 		else if (m_objects[i]->GetPosition().z > 4.0f)
@@ -116,6 +108,8 @@ void Scene::Update(float deltaTs)
 			UpdateConsole();
 		}
 	}
+
+	return gameEnd;
 }
 
 void Scene::UpdateConsole()
@@ -319,8 +313,6 @@ Scene::~Scene()
 		m_objects[i]->Destroy();
 		std::cout << "(Destroyed)\n";
 	}
-
-	SDL_FreeSurface(m_image);
 
 	m_objects.clear();
 

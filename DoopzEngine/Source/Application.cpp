@@ -48,9 +48,8 @@ bool Application::Init()
 		return false;
 	}
 
-	//create gameobject
+	//Create scene
 	m_scene = new Scene();
-	m_scene->SetScreen(m_screen);
 
 
 	return true;
@@ -120,7 +119,11 @@ bool Application::Update()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_scene->Update(deltaTime);
+	if (m_scene->Update(deltaTime))
+	{
+		delete m_scene;
+		m_scene = new Scene;
+	}
 
 	SDL_GL_SwapWindow(m_window);
 

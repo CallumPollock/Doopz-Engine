@@ -26,11 +26,10 @@ public:
 	Scene();
 	~Scene();
 
-	void Update(float deltaTs);
+	bool Update(float deltaTs);
 
 	void Draw();
 
-	void SetScreen(SDL_Surface* _screen);
 	std::vector<Object*> m_objects;
 
 protected:	
@@ -40,10 +39,10 @@ protected:
 		plane
 	};
 
+	bool gameEnd = false;
+
 	void UpdateConsole();
 	void Instantiate(objectType _type, std::string _name, glm::vec3 _pos);
-
-	SDL_Surface* m_image = NULL;
 
 	float m_timer = 0.0;
 
@@ -73,8 +72,6 @@ protected:
 	void BuildShaders();
 
 	unsigned int LoadTexture(std::string filename);
-
-	SDL_Surface* m_screen = NULL;
 
 };
 
